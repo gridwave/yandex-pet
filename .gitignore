@@ -30,5 +30,6 @@ override.tf.json
 
 # Yandex-Cloud key-file
 authorized_key.json
+storage.key
 
 .DS_Store

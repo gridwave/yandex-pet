@@ -62,11 +62,11 @@ data "yandex_compute_image" "ubuntu_image" {
 resource "yandex_compute_instance" "compute_master" {
   count       = 1
   name        = "master-${count.index + 1}"
-  platform_id = "standard-v1"
+  platform_id = "standard-v3"
   zone        = element(local.az, count.index)
 
   resources {
-    core_fraction = 20
+    core_fraction = 100
     cores         = 2
     memory        = 2
   }
@@ -91,7 +91,7 @@ resource "yandex_compute_instance" "compute_master" {
 }
 
 resource "yandex_compute_instance" "compute_node" {
-  count       = 3
+  count       = 0
   name        = "node-${count.index + 1}"
   platform_id = "standard-v1"
   zone        = element(local.az, count.index)

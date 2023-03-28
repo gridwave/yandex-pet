@@ -18,13 +18,14 @@ sudo tee /etc/sysctl.d/kubernetes.conf <<EOF
 net.bridge.bridge-nf-call-ip6tables = 1
 net.bridge.bridge-nf-call-iptables = 1
 net.ipv4.ip_forward = 1
+net.ipv4.ip_nonlocal_bind = 1
 EOF
 
 sudo sysctl --system
 
 # Install containerd
-sudo apt-get remove -f docker docker-engine docker.io containerd runc
-sudo apt-get install -f ca-certificates curl gnupg lsb-release
+sudo apt-get remove -fy docker docker-engine docker.io containerd runc
+sudo apt-get install -fy ca-certificates curl gnupg lsb-release
 sudo mkdir -m 0755 -p /etc/apt/keyrings
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
 echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
@@ -41,5 +42,5 @@ sudo systemctl enable containerd
 curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
 sudo apt-add-repository "deb http://apt.kubernetes.io/ kubernetes-xenial main"
 sudo apt update
-sudo apt install -y kubelet kubeadm kubectl
+sudo apt install -fy kubelet kubeadm kubectl
 sudo apt-mark hold kubelet kubeadm kubectl
